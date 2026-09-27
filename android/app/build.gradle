@@ -12,12 +12,22 @@ android {
         versionName "1.4.0"
     }
 
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("KEYSTORE_PATH") ?: "learn-earn.keystore")
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "yadstore2026"
+            keyAlias System.getenv("KEY_ALIAS") ?: "learnearn"
+            keyPassword System.getenv("KEY_PASSWORD") ?: "yadstore2026"
+        }
+    }
+
     buildTypes {
         debug {
             debuggable true
         }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

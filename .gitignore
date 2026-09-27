@@ -1,0 +1,4 @@
+
+# Keystore - JANGAN COMMIT!
+*.keystore
+*.jks

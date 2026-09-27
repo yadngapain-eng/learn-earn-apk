@@ -52,7 +52,26 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace --no-daemon
 
-      - name: Build Release APK
+      - name: Decode Keystore
+        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/learn-earn.keystore
+          echo "✅ Keystore decoded"
+          ls -la android/app/learn-earn.keystore
+
+      - name: Build Release APK (Signed)
+        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
+        env:
+          KEYSTORE_PATH: learn-earn.keystore
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          cd android
+          ./gradlew assembleRelease --stacktrace --no-daemon
+
+      - name: Build Release APK (Unsigned fallback)
+        if: ${{ secrets.KEYSTORE_BASE64 == '' }}
         run: |
           cd android
           ./gradlew assembleRelease --stacktrace --no-daemon
