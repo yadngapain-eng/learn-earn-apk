@@ -8,8 +8,8 @@ android {
         applicationId "id.my.duniamu.learnearn"
         minSdk 21
         targetSdk 34
-        versionCode 5
-        versionName "1.4.0"
+        versionCode 8
+        versionName "2.2.0"
     }
 
     signingConfigs {
