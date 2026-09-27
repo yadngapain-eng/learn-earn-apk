@@ -40,6 +40,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Verify Java files
+        run: |
+          echo "=== Java files ==="
+          find android/app/src/main/java -name "*.java" -exec ls -la {} \;
+
       - name: Build Debug APK
         run: |
           cd android
