@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.LearnEarn" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Warna background -->
+        <item name="android:windowBackground">@color/colorPrimary</item>
+
+        <!-- Fullscreen / Immersive -->
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <!-- Status bar & Navigation bar -->
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- No action bar -->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <!-- Smooth transition -->
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+    </style>
+
+    <!-- Style untuk Splash Screen (opsional) -->
+    <style name="Theme.LearnEarn.Splash" parent="Theme.LearnEarn">
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 </resources>

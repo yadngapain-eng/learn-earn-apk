@@ -15,11 +15,13 @@
             android:name="asset_statements"
             android:resource="@string/asset_statements" />
 
-        <activity
+                <activity
             android:name="com.google.androidbrowserhelper.trusted.LauncherActivity"
             android:exported="true"
             android:label="Learn Earn"
-            android:theme="@style/Theme.LearnEarn">
+            android:theme="@style/Theme.LearnEarn"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -47,7 +49,13 @@
                 android:resource="@color/colorPrimary" />
             <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
-                android:value="300" />
+                android:value="500" />
+            <meta-data
+                android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
+                android:value="id.my.duniamu.learnearn.fileprovider" />
+            <meta-data
+                android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
+                android:value="portrait" />
         </activity>
     </application>
 </manifest>
