@@ -1,4 +1,4 @@
-name: Build APK
+name: Build Release APK
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build Learn Earn APK
+    name: Build Signed Release APK
 
     steps:
       - name: Checkout
@@ -45,13 +45,6 @@ jobs:
           echo "=== Java files ==="
           find android/app/src/main/java -name "*.java" -exec ls -la {} \; 2>/dev/null || echo "No Java files"
 
-      - name: Build Debug APK
-        run: |
-          cd android
-          gradle wrapper --gradle-version 8.2
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace --no-daemon
-
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/learn-earn.keystore
@@ -66,16 +59,9 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           cd android
+          gradle wrapper --gradle-version 8.2
+          chmod +x gradlew
           ./gradlew assembleRelease --stacktrace --no-daemon
-
-      - name: Upload Debug APK
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: learn-earn-debug-apk
-          path: android/app/build/outputs/apk/debug/*.apk
-          retention-days: 30
-          if-no-files-found: warn
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
@@ -90,4 +76,4 @@ jobs:
         if: always()
         run: |
           echo "=== APK Files ==="
-          find android/app/build/outputs/apk -name "*.apk" -exec ls -la {} \; 2>/dev/null || echo "No APK found"
+          find android/app/build/outputs/apk/release -name "*.apk" -exec ls -la {} \; 2>/dev/null || echo "No APK found"
