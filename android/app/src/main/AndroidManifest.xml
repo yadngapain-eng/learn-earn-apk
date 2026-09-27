@@ -58,5 +58,15 @@
                 android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
                 android:value="portrait" />
         </activity>
+            <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="id.my.duniamu.learnearn.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
     </application>
 </manifest>
