@@ -1,13 +1,11 @@
-plugins {
-    id 'com.android.application'
-}
+apply plugin: 'com.android.application'
 
 android {
-    namespace 'learn.earn.com'
+    namespace 'id.my.duniamu.learnearn'
     compileSdk 34
 
     defaultConfig {
-        applicationId "learn.earn.com"
+        applicationId "id.my.duniamu.learnearn"
         minSdk 21
         targetSdk 34
         versionCode 1
@@ -15,19 +13,23 @@ android {
     }
 
     buildTypes {
+        debug {
+            debuggable true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
+    // WAJIB: untuk generate BuildConfig
+    buildFeatures {
+        buildConfig true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        buildConfig true
     }
 }
 

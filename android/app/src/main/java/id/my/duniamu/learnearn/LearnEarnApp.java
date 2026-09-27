@@ -20,8 +20,16 @@ public class LearnEarnApp extends Application {
         setupCrashHandler();
 
         // Enable WebView debugging (debug build only)
-        if (BuildConfig.DEBUG) {
-            WebView.setWebContentsDebuggingEnabled(true);
+        // Enable WebView debugging di debug build
+        try {
+            android.content.pm.ApplicationInfo appInfo = getApplicationInfo();
+            boolean isDebug = (appInfo.flags & android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+            if (isDebug) {
+                WebView.setWebContentsDebuggingEnabled(true);
+                LogTracker.i("WebView debugging enabled");
+            }
+        } catch (Exception e) {
+            LogTracker.w("WebView debug setup failed: " + e.getMessage());
         }
 
         // Log config
