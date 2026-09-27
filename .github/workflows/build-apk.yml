@@ -15,43 +15,63 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '17'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-34 build-tools;34.0.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Build Debug APK
         run: |
           cd android
           gradle wrapper --gradle-version 8.2
-          ./gradlew assembleDebug --stacktrace
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace --no-daemon
 
       - name: Build Release APK
         run: |
           cd android
-          ./gradlew assembleRelease --stacktrace
+          ./gradlew assembleRelease --stacktrace --no-daemon
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: learn-earn-debug-apk
           path: android/app/build/outputs/apk/debug/*.apk
           retention-days: 30
+          if-no-files-found: warn
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: learn-earn-release-apk
           path: android/app/build/outputs/apk/release/*.apk
           retention-days: 30
+          if-no-files-found: warn
 
       - name: Show APK info
+        if: always()
         run: |
           echo "=== APK Files ==="
-          find android/app/build/outputs/apk -name "*.apk" -exec ls -la {} \;
+          find android/app/build/outputs/apk -name "*.apk" -exec ls -la {} \; 2>/dev/null || echo "No APK found"
